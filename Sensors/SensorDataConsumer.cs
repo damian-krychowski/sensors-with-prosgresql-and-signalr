@@ -65,14 +65,35 @@ namespace Sensors
             Console.WriteLine($"Consumer with id: {_consumerId} " +
                               $"received SensorData with id: {sensorData.Id}");
 
+            if (sensorData.Type != "SensorData")
+            {
+                Console.WriteLine(
+                    $"Type '{sensorData.Type}' is not supported yet. " +
+                    $"Only 'SensorData' can be processed. " +
+                    $"Message will be ignored.");
+
+                return;
+            }
+
+            
             var entity = new SensorDataEntity
             {
                 Id = sensorData.Id,
                 Timestamp = sensorData.Timestamp,
-                Data = sensorData.Data
+                Data = FilterSensorsData(sensorData.Data)
             };
 
             await _database.InsertSensorData(entity);
+        }
+
+        private static Dictionary<string, object> FilterSensorsData(
+            Dictionary<string, object> sensorData)
+        {
+            //todo: implement filtering logic which will only allow keys like 
+            //todo: 'sensor___' to pass through (sensor1 - sensor150)
+            //todo: all values which do not match this criteria should be filtered out 
+            //todo: and maybe logged only so that we see that situations like this happens
+            return sensorData;
         }
     }
 }

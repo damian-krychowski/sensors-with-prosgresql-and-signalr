@@ -6,6 +6,7 @@ namespace Sensors
     public class SensorDataDto
     {
         public Guid Id { get; set; }
+        public string Type { get; set; }
 
         public long Timestamp { get; set; }
 

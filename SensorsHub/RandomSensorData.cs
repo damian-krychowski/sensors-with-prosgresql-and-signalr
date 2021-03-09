@@ -20,6 +20,7 @@ namespace SensorsHub
             return new
             {
                 Id = Guid.NewGuid(),
+                Type = "SensorData",
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                 Data = sensors
             };
