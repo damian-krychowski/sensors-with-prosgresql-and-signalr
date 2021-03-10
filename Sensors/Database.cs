@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 namespace Sensors
@@ -15,15 +16,18 @@ namespace Sensors
         }
 
         public async Task InsertSensorData(
-            SensorDataEntity entity)
+            SensorDataEntity entity,
+            CancellationToken cancellationToken)
         {
             await using var dbContext = new SensorsContext(
                 _connectionString);
 
             await dbContext.AddAsync(
-                entity);
+                entity,
+                cancellationToken);
 
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync(
+                cancellationToken);
         }
     }
 }

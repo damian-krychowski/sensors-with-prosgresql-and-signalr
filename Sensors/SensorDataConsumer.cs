@@ -40,7 +40,9 @@ namespace Sensors
 
                         if (_reader.TryRead(out var item))
                         {
-                            await ProcessSensorData(item);
+                            await ProcessSensorData(
+                                item,
+                                cancellationToken);
                         }
                     }
                 }
@@ -60,7 +62,9 @@ namespace Sensors
             }, cancellationToken);
         }
 
-        private async Task ProcessSensorData(SensorDataDto sensorData)
+        private async Task ProcessSensorData(
+            SensorDataDto sensorData,
+            CancellationToken cancellationToken)
         {
             Console.WriteLine($"Consumer with id: {_consumerId} " +
                               $"received SensorData with id: {sensorData.Id}");
@@ -83,7 +87,9 @@ namespace Sensors
                 Data = FilterSensorsData(sensorData.Data)
             };
 
-            await _database.InsertSensorData(entity);
+            await _database.InsertSensorData(
+                entity,
+                cancellationToken);
         }
 
         private static Dictionary<string, object> FilterSensorsData(
