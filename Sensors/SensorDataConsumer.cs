@@ -33,11 +33,6 @@ namespace Sensors
                 {
                     while (await _reader.WaitToReadAsync(cancellationToken))
                     {
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
-
                         if (_reader.TryRead(out var item))
                         {
                             await ProcessSensorData(
